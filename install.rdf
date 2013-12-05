@@ -9,7 +9,6 @@
 		<em:bootstrap>true</em:bootstrap>
 		<em:description>Adds Google Reverse Image Search to the context menu</em:description>
 		<em:creator>ispedals</em:creator>
-		<em:unpack>true</em:unpack>
 
 		<!-- Mobile -->
 		<em:targetApplication>
