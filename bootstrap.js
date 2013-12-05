@@ -1,18 +1,18 @@
 const Cc = Components.classes;
 const Ci = Components.interfaces;
 
-function isPrivateTab(aTab) {
-	return aTab.browser.docShell.QueryInterface(Ci.nsILoadContext).usePrivateBrowsing;
+function isPrivateTab(tab) {
+	return tab.browser.docShell.QueryInterface(Ci.nsILoadContext).usePrivateBrowsing;
 }
 
-var searcherId = null;
+let searcherId = null;
 
 function loadIntoWindow(window) {
 	if (!window)
 		return;
 
-	searcherId = window.NativeWindow.contextmenus.add('Search Image on Google', window.NativeWindow.contextmenus.imageLocationCopyableContext, function (aTarget) {
-		var imgUrl = aTarget.src;
+	searcherId = window.NativeWindow.contextmenus.add('Search Image on Google', window.NativeWindow.contextmenus.imageLocationCopyableContext, function (target) {
+		let imgUrl = target.src;
 		window.BrowserApp.addTab('https://encrypted.google.com/searchbyimage?image_url=' + encodeURIComponent(imgUrl), {
 			isPrivate: isPrivateTab(window.BrowserApp.selectedTab)
 		});

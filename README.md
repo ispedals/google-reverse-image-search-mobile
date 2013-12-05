@@ -10,3 +10,8 @@ Requires Firefox for Android 18.0+
 ##Todo
 * Change selector context so that only http/https located images can be searched. Currently, the option appears in the context menu for data uri image
 even though they are not searchable.
+
+##License
+Google Reverse Image Search is licensed under the MIT License, Copyright (c) 2013 ispedals
+The icon is from Ionicons (http://ionicons.com/), which is under the MIT License.
+
