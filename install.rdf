@@ -4,10 +4,10 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>googlereverseimagesearchmobile@nowhere.us</em:id>
 		<em:type>2</em:type>
-		<em:name>Google Reverse Image Search</em:name>
+		<em:name>Google Reverse Image Search Mobile</em:name>
 		<em:version>1.0</em:version>
 		<em:bootstrap>true</em:bootstrap>
-		<em:description>Adds Google Reverse Image Search to the context menu</em:description>
+		<em:description>Adds Google Reverse Image Search to the context menu for Firefox for Android</em:description>
 		<em:creator>ispedals</em:creator>
 		<em:homepageURL>https://github.com/ispedals/google-reverse-image-search-mobile</em:homepageURL>
 
@@ -16,7 +16,7 @@
 			<Description>
 				<em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id>
 				<em:minVersion>18.0</em:minVersion>
-				<em:maxVersion>*</em:maxVersion>
+				<em:maxVersion>28.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 
