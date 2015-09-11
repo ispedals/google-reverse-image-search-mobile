@@ -1,10 +1,18 @@
 const Cc = Components.classes;
 const Ci = Components.interfaces;
+const Cu = Components.utils;
+
+let {UserAgentOverrides} = Cu.import("resource://gre/modules/UserAgentOverrides.jsm", {});
 
 function isPrivateTab(tab) {
   return tab.browser.docShell.QueryInterface(Ci.nsILoadContext).usePrivateBrowsing;
 }
 
+/* 
+  Google redirects to the homepage if we attempt a reverse image search using the default UA
+  so spoof the chrome user agent (see bugzil.la/1200652)
+*/
+const CHROME_USER_AGENT = 'Mozilla/5.0 (Linux; Android) AppleWebKit (KHTML, like Gecko) Mobile';
 let searcherId = null;
 
 function loadIntoWindow(window) {
@@ -21,7 +29,7 @@ function loadIntoWindow(window) {
     },
     function (target) {
       let imgUrl = target.src;
-      window.BrowserApp.addTab('https://encrypted.google.com/searchbyimage?image_url=' + encodeURIComponent(imgUrl), {
+      window.BrowserApp.addTab('https://www.google.com/searchbyimage?image_url=' + encodeURIComponent(imgUrl), {
         isPrivate: isPrivateTab(window.BrowserApp.selectedTab),
         parentId: window.BrowserApp.selectedTab.id
       });
@@ -58,6 +66,19 @@ function startup(aData, aReason) {
   }
   // Load into any new windows
   wm.addListener(windowListener);
+  /*
+    Reverse Image Search first hits the url of the form:
+      google.<COUNTRY SPECIFIC TLD>/searchbyimage?image_url=<IMAGE URL>
+    which then redircts to the url of the form:
+      google.<COUNTRY SPECIFIC TLD>/search?tbs=sbi:<...>
+    
+    We need to provide the Chrome User Agent for these urls
+  */
+  UserAgentOverrides.addComplexOverride(function googleImageSearchUserAgentOverride(channel, DEFAULT_UA){
+    if (channel.URI.host.indexOf("google.") !== -1 && (channel.URI.path.startsWith("/searchbyimage?") || channel.URI.path.startsWith("/search?tbs=sbi:"))){
+      return CHROME_USER_AGENT;
+    }
+  });
 }
 
 function shutdown(aData, aReason) {
