@@ -22,7 +22,8 @@ function loadIntoWindow(window) {
     function (target) {
       let imgUrl = target.src;
       window.BrowserApp.addTab('https://encrypted.google.com/searchbyimage?image_url=' + encodeURIComponent(imgUrl), {
-        isPrivate: isPrivateTab(window.BrowserApp.selectedTab)
+        isPrivate: isPrivateTab(window.BrowserApp.selectedTab),
+        parentId: window.BrowserApp.selectedTab.id
       });
     }
   );
