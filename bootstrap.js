@@ -82,7 +82,9 @@ function startup(aData, aReason) {
     We need to provide the Chrome User Agent for these urls
   */
   UserAgentOverrides.addComplexOverride(function googleImageSearchUserAgentOverride(channel, DEFAULT_UA){
-    if (channel.URI.host.indexOf("google.") !== -1 && (channel.URI.path.startsWith("/searchbyimage?") || channel.URI.path.startsWith("/search?tbs=sbi:"))){
+    if (channel.URI.host.indexOf("google.") !== -1 && (channel.URI.path.startsWith("/searchbyimage?") ||
+                                                       channel.URI.path.startsWith("/search?tbs=sbi:") ||
+                                                       channel.URI.path.indexOf("tbs=simg:") !== -1)){
       return CHROME_USER_AGENT;
     }
   });
