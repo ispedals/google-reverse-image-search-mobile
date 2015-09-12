@@ -3,6 +3,13 @@ const Ci = Components.interfaces;
 const Cu = Components.utils;
 
 let {UserAgentOverrides} = Cu.import("resource://gre/modules/UserAgentOverrides.jsm", {});
+Cu.import('resource://gre/modules/Services.jsm');
+Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+
+const BUNDLE = "chrome://reverseimagesearch/locale/reverseimagesearch.properties?' + Math.random()"; // Randomize URI to work around bug 719376
+XPCOMUtils.defineLazyGetter(this, "Strings", function() {
+  return Services.strings.createBundle(BUNDLE);
+});
 
 function isPrivateTab(tab) {
   return tab.browser.docShell.QueryInterface(Ci.nsILoadContext).usePrivateBrowsing;
@@ -20,7 +27,7 @@ function loadIntoWindow(window) {
     return;
 
   searcherId = window.NativeWindow.contextmenus.add(
-    'Search Image on Google',
+    Strings.GetStringFromName("searchimage_contextmenu"),
     {
       matches: function(element) {
         // imageLocationCopyableContext also matches data urls, which google image search does not support
